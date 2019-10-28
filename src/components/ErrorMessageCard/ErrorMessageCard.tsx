@@ -15,7 +15,7 @@ const ErrorMessageCard: React.StatelessComponent<ErrorMessageCardProps> = ({
       <Typography variant="h5" component="h2">
         <FormattedMessage defaultMessage="Error" description="header" />
       </Typography>
-      <Typography variant="body2">{message}</Typography>
+      <Typography variant="body1">{message}</Typography>
     </CardContent>
   </Card>
 );
