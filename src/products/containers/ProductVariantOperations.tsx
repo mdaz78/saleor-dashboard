@@ -20,26 +20,24 @@ import {
 import { VariantUpdate, VariantUpdateVariables } from "../types/VariantUpdate";
 
 interface VariantDeleteOperationsProps {
-  children: (
-    props: {
-      deleteVariant: PartialMutationProviderOutput<
-        VariantDelete,
-        VariantDeleteVariables
-      >;
-      updateVariant: PartialMutationProviderOutput<
-        VariantUpdate,
-        VariantUpdateVariables
-      >;
-      assignImage: PartialMutationProviderOutput<
-        VariantImageAssign,
-        VariantImageAssignVariables
-      >;
-      unassignImage: PartialMutationProviderOutput<
-        VariantImageUnassign,
-        VariantImageUnassignVariables
-      >;
-    }
-  ) => React.ReactNode;
+  children: (props: {
+    deleteVariant: PartialMutationProviderOutput<
+      VariantDelete,
+      VariantDeleteVariables
+    >;
+    updateVariant: PartialMutationProviderOutput<
+      VariantUpdate,
+      VariantUpdateVariables
+    >;
+    assignImage: PartialMutationProviderOutput<
+      VariantImageAssign,
+      VariantImageAssignVariables
+    >;
+    unassignImage: PartialMutationProviderOutput<
+      VariantImageUnassign,
+      VariantImageUnassignVariables
+    >;
+  }) => React.ReactNode;
   onDelete?: (data: VariantDelete) => void;
   onImageAssign?: (data: VariantImageAssign) => void;
   onImageUnassign?: (data: VariantImageUnassign) => void;
