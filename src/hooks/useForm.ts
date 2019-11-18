@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import { UserError } from "@saleor/types";
 import { toggle } from "@saleor/utils/lists";
+import slugify from "slugify";
 import useStateFromProps from "./useStateFromProps";
 
 export interface ChangeEvent<TData = any> {
@@ -96,6 +97,30 @@ function useForm<T extends FormData>(
     }
   }
 
+  function slugifyData(name) {
+    const slug = slugify(name).toLowerCase();
+    return replaceNumericDigitsAndPlus(slug);
+  }
+
+  function replaceNumericDigitsAndPlus(value) {
+    return value
+      .replace(/\+/g, "plus")
+      .replace(/12/g, "twelve-")
+      .replace(/11/g, "eleven-")
+      .replace(/10/g, "ten-")
+      .replace(/9/g, "nine-")
+      .replace(/8/g, "eight-")
+      .replace(/7/g, "seven-")
+      .replace(/6/g, "six-")
+      .replace(/5/g, "five-")
+      .replace(/4/g, "four-")
+      .replace(/3/g, "three-")
+      .replace(/2/g, "two-")
+      .replace(/1/g, "one-")
+      .replace(/0/g, "zero-")
+      .replace(/--/g, "-");
+  }
+
   function change(event: ChangeEvent) {
     const { name, value } = event.target;
 
@@ -106,10 +131,18 @@ function useForm<T extends FormData>(
       if (data[name] !== value) {
         setChanged(true);
       }
-      setData(data => ({
-        ...data,
-        [name]: value
-      }));
+      if (name !== "name") {
+        setData(data => ({
+          ...data,
+          [name]: value
+        }));
+      } else {
+        setData(data => ({
+          ...data,
+          name: value,
+          sku: slugifyData(value)
+        }));
+      }
     }
   }
 

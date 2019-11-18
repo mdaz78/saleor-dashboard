@@ -6,7 +6,7 @@ import React from "react";
 import { useIntl } from "react-intl";
 
 import CardTitle from "@saleor/components/CardTitle";
-import { maybe } from "../../../misc";
+// import { maybe } from "../../../misc";
 import { ProductDetails_product } from "../../types/ProductDetails";
 
 const useStyles = makeStyles(theme => ({
@@ -29,16 +29,15 @@ interface ProductStockProps {
 }
 
 const ProductStock: React.FC<ProductStockProps> = props => {
-  const { data, disabled, product, onChange, errors } = props;
+  const { data, disabled, onChange, errors } = props;
   const classes = useStyles(props);
-
   const intl = useIntl();
 
   return (
     <Card>
       <CardTitle
         title={intl.formatMessage({
-          defaultMessage: "Inventory",
+          defaultMessage: "SKU / Slug",
           description: "product stock, section header",
           id: "productStockHeader"
         })}
@@ -49,14 +48,14 @@ const ProductStock: React.FC<ProductStockProps> = props => {
             disabled={disabled}
             name="sku"
             label={intl.formatMessage({
-              defaultMessage: "SKU (Stock Keeping Unit)"
+              defaultMessage: "SKU (Stock Keeping Unit) / Slug"
             })}
             value={data.sku}
             onChange={onChange}
             error={!!errors.sku}
             helperText={errors.sku}
           />
-          <TextField
+          {/* <TextField
             disabled={disabled}
             name="stockQuantity"
             label={intl.formatMessage({
@@ -82,7 +81,7 @@ const ProductStock: React.FC<ProductStockProps> = props => {
                   )
                 : undefined
             }
-          />
+          /> */}
         </div>
       </CardContent>
     </Card>
