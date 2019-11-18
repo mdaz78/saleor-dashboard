@@ -1,6 +1,7 @@
 import gql from "graphql-tag";
 
-import { TypedQuery } from "../queries";
+import makeQuery from "@saleor/hooks/makeQuery";
+import { pageInfoFragment } from "../queries";
 import {
   CategoryDetails,
   CategoryDetailsVariables
@@ -38,6 +39,7 @@ export const categoryDetailsFragment = gql`
 
 export const rootCategories = gql`
   ${categoryFragment}
+  ${pageInfoFragment}
   query RootCategories(
     $first: Int
     $after: String
@@ -59,21 +61,19 @@ export const rootCategories = gql`
         }
       }
       pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
+        ...PageInfoFragment
       }
     }
   }
 `;
-export const TypedRootCategoriesQuery = TypedQuery<RootCategories, {}>(
+export const useRootCategoriesQuery = makeQuery<RootCategories, {}>(
   rootCategories
 );
 
 export const categoryDetails = gql`
   ${categoryFragment}
   ${categoryDetailsFragment}
+  ${pageInfoFragment}
   query CategoryDetails(
     $id: ID!
     $first: Int
@@ -83,19 +83,19 @@ export const categoryDetails = gql`
   ) {
     category(id: $id) {
       ...CategoryDetailsFragment
-      children(first: 20) {
+      children(first: $first, after: $after, last: $last, before: $before) {
         edges {
           node {
             ...CategoryFragment
           }
         }
+        pageInfo {
+          ...PageInfoFragment
+        }
       }
       products(first: $first, after: $after, last: $last, before: $before) {
         pageInfo {
-          endCursor
-          hasNextPage
-          hasPreviousPage
-          startCursor
+          ...PageInfoFragment
         }
         edges {
           cursor
@@ -120,7 +120,7 @@ export const categoryDetails = gql`
     }
   }
 `;
-export const TypedCategoryDetailsQuery = TypedQuery<
+export const useCategoryDetailsQuery = makeQuery<
   CategoryDetails,
   CategoryDetailsVariables
 >(categoryDetails);
